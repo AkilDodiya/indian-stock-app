@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
 
 export async function GET() {
   try {
     const portfolio = await prisma.portfolio.findMany();
-    return NextResponse.json(portfolio);
+    return NextResponse.json(Array.isArray(portfolio) ? portfolio : []);
   } catch (err) {
     console.error(err);
     return NextResponse.json(

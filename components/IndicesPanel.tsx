@@ -2,8 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 
+type Index = {
+  indexName: string;
+  last: number | string;
+  perChange: number;
+};
+
 export default function IndicesPanel() {
-  const [indices, setIndices] = useState<any[]>([]);
+  const [indices, setIndices] = useState<Index[]>([]);
 
   useEffect(() => {
     fetch("/api/indices")
@@ -16,9 +22,9 @@ export default function IndicesPanel() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-900 rounded-lg">
-      {indices.map((index) => (
+      {indices.map((index, idx) => (
         <div
-          key={index.indexName}
+          key={`${index.indexName}-${idx}`}
           className="p-4 bg-gray-800 rounded-lg shadow text-white"
         >
           <h3 className="text-lg font-semibold">{index.indexName}</h3>

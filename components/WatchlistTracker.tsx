@@ -9,12 +9,11 @@ interface Stock {
   currentPrice: number;
 }
 
-export default function PortfolioTracker() {
+export default function WatchlistTracker() {
   const [stocks, setStocks] = useState<Stock[]>([]);
 
-  // Load portfolio from SQLite
   useEffect(() => {
-    fetch("/api/portfolio")
+    fetch("/api/watchlist")
       .then(async (res) => {
         if (!res.ok) {
           const text = await res.text();
@@ -30,24 +29,9 @@ export default function PortfolioTracker() {
       });
   }, []);
 
-  // Add new stock to portfolio
-  const addStock = async (
-    symbol: string,
-    addedPrice: number,
-    currentPrice: number,
-  ) => {
-    const res = await fetch("/api/portfolio", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ symbol, addedPrice, currentPrice }),
-    });
-    const newStock = await res.json();
-    setStocks((prev) => [...prev, newStock]);
-  };
-
   return (
     <div className="p-6 bg-gray-900 text-white rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Portfolio Tracker</h2>
+      <h2 className="text-xl font-bold mb-4">Watchlist Tracker</h2>
       <table className="w-full border-collapse">
         <thead>
           <tr className="bg-gray-800">

@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { symbol: string } },
+  context: { params: { symbol: string } | Promise<{ symbol: string }> },
 ) {
-  const { symbol } = params;
+  const { params } = context;
+  const { symbol } = await params;
 
   // Example using Yahoo Finance API (works for NSE/BSE tickers)
   const res = await fetch(
